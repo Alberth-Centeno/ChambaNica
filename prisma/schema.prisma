@@ -1,0 +1,118 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model User {
+  id         String   @id @default(uuid())
+  email      String   @unique
+  password   String
+  name       String
+  phone      String
+  role       Role     @default(TRABAJADOR)
+  zone       Zone
+  idPhotoUrl String?
+  profilePhotoUrl String?
+  bio String? @db.Text
+  verified   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  // Relaciones
+  serviceOffers     ServiceOffer[]
+  jobRequests       JobRequest[]
+  ratingsGiven      Rating[]       @relation("Rater")
+  ratingsReceived   Rating[]       @relation("Rated")
+  jobMatchesOffered JobMatch[]     @relation("OfferUser") // 👈 inversa con JobMatch
+}
+
+model ServiceOffer {
+  id              String   @id @default(uuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+  trade           Trade
+  yearsExperience Int
+  workPhotoUrl    String
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  jobMatches JobMatch[]
+  @@unique([userId, trade])
+}
+
+model JobRequest {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  trade       Trade
+  description String
+  zone        Zone
+  photoUrl    String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  // Relación inversa hacia JobMatch
+  matches JobMatch[]
+}
+
+model JobMatch {
+  id          String     @id @default(uuid())
+  requestId   String
+  offerUserId String
+  serviceOfferId  String? 
+  completedByRequester Boolean @default(false)
+  completedByOfferer   Boolean @default(false)
+  request     JobRequest @relation(fields: [requestId], references: [id])
+  offerUser   User       @relation("OfferUser", fields: [offerUserId], references: [id])
+  status      String     @default("PENDING") // PENDING, ACCEPTED, REJECTED, COMPLETED
+  createdAt   DateTime   @default(now())
+  serviceOffer    ServiceOffer? @relation(fields: [serviceOfferId], references: [id])
+  ratings Rating[]
+}
+
+model Rating {
+  id        String   @id @default(uuid())
+  raterId   String
+  ratedId   String
+  matchId   String
+  rater     User     @relation("Rater", fields: [raterId], references: [id])
+  rated     User     @relation("Rated", fields: [ratedId], references: [id])
+  match     JobMatch @relation(fields: [matchId], references: [id])
+  score     Int // 1–5
+  comment   String?
+  createdAt DateTime @default(now())
+  
+  @@unique([matchId, raterId])
+}
+
+enum Role {
+  TRABAJADOR
+  CLIENTE
+  ADMIN
+}
+
+enum Trade {
+  PLOMERO
+  ELECTRICISTA
+  CARPINTERO
+  MECANICO
+  PINTOR
+  SOLDADOR
+  ALBANIL
+  TECNICO
+  CHOFER
+}
+
+enum Zone {
+  ZONA1
+  ZONA2
+  ZONA3
+  ZONA4
+  ZONA5
+  ZONA6
+  ZONA7
+  ZONA8
+}
