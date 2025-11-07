@@ -1,6 +1,6 @@
 import { Trade, Zone } from "@prisma/client";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/auth";
 import { uploadImage } from "@/lib/upload";
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
