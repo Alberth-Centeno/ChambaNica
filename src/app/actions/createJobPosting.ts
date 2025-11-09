@@ -1,6 +1,6 @@
 'use server';
-import { prisma } from '../lib/prisma';
-import { uploadMultipleFiles }from '../lib/cloudinary';
+import { prisma } from '../../lib/prisma';
+import { uploadMultipleFiles }from '../../lib/cloudinary';
 import { Trade, Zone } from '@prisma/client';
 import { z } from 'zod';
 import { getServerSession } from 'next-auth';

@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
-import { prisma } from "@/app/lib/prisma"; 
-import { uploadFile } from "@/app/lib/cloudinary";
+import { prisma } from "@/lib/prisma"; 
+import { uploadFile } from "@/lib/cloudinary";
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);

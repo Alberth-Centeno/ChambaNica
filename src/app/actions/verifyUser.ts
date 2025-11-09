@@ -1,5 +1,5 @@
 'use server';
-import { prisma } from '@/app/lib/prisma';
+import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
 
 const verifySchema = z.object({ userId: z.string() });

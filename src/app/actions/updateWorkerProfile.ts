@@ -1,7 +1,7 @@
 "use server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { prisma } from "../lib/prisma";
+import { prisma } from "../../lib/prisma";
 import { $Enums } from "@prisma/client";
 
 export async function updateWorkerProfile(formData: FormData) {

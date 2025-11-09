@@ -1,6 +1,6 @@
 // src/app/api/offer/create/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/app/lib/prisma"; 
+import { prisma } from "@/lib/prisma"; 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 import { uploadImage } from "@/lib/upload"; // Asegúrate de tener esta función

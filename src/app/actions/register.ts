@@ -1,7 +1,7 @@
 'use server';
-import { prisma } from '../lib/prisma'; 
+import { prisma } from '../../lib/prisma'; 
 import bcrypt from 'bcryptjs';
-import { uploadFile } from '../lib/cloudinary';
+import { uploadFile } from '../../lib/cloudinary';
 import { Role, Zone } from '@prisma/client';
 import { z } from 'zod';
 

@@ -1,7 +1,7 @@
 import { AuthOptions, User as NextAuthUser } from "next-auth";
 import { AdapterUser } from "next-auth/adapters";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { prisma } from "@/app/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 
 // Extend User and AdapterUser types to include phone and zone
